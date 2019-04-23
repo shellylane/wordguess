@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import words from "./words";
+import DisplayWord from "./components/DisplayWord/DisplayWord";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    word: words[Math.floor(Math.random() * words.length)],
+    guessedLetters: []
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Hangman</h1>
+        {this.state.word}
+        <DisplayWord
+          word={this.state.word}
+          guessedLetters={this.state.guessedLetters}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
+
+//randommly choose a word
+
+//display the correctly guessed letters underscores for missing letters
+
+//display the letters not yet guessed
+
+//letters guessed not in word
+
+//let user guess a letter (form)
+
+//check if the letter is in the word
+
+//update guess state
+
+//repeat until the game is over
+
+// game over: word is guessed or out of guesses
