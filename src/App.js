@@ -4,7 +4,7 @@ import words from "./words";
 import alphabet from "./alphabet";
 import DisplayWord from "./components/DisplayWord/DisplayWord";
 import WrongLetters from "./components/WrongLetters/WrongLetters";
-import DisplayAlphabet from "./components/DisplayAlphabet/DisplayAlphabet";
+import LetterButton from "./components/LetterButton/LetterButton";
 
 class App extends Component {
   state = {
@@ -15,10 +15,11 @@ class App extends Component {
   };
   handleClick = e => {
     e.preventDefault();
-    const letter = e.target.value.toLowerCase();
+    const letter = e.target.key.toLowerCase();
 
-    this.props.updateGame(letter);
+    //updateGame(letter);
   };
+
   updateGuessedLetters = letter => {
     if (this.state.guessedLetters.includes(letter)) {
       alert("You already guessed " + letter);
@@ -53,11 +54,13 @@ class App extends Component {
       alert("You Won!");
     }
   };
+
   updateGame = letter => {
     this.updateGuessedLetters(letter);
     this.updateGuessesRemaining(letter);
     this.gameOver();
   };
+
   render() {
     return (
       <div className="App">
@@ -73,7 +76,9 @@ class App extends Component {
           word={this.state.word}
           guessedLetters={this.state.guessedLetters}
         />
-        <DisplayAlphabet lettersToGuess={this.state.lettersToGuess} />
+        {this.state.lettersToGuess.map(item => (
+          <LetterButton key={item} handleClick={this.handleClick} />
+        ))}
       </div>
     );
   }
