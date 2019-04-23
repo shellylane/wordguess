@@ -10,7 +10,11 @@ class WrongLetters extends Component {
   }
 
   render() {
-    return <div className="WrongLetters">{this.getWrongLetters()}</div>;
+    return (
+      <div className="WrongLetters">
+        <h2>Incorrect Guesses: {this.getWrongLetters()}</h2>
+      </div>
+    );
   }
 }
 

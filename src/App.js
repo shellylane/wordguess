@@ -1,25 +1,18 @@
 import React, { Component } from "react";
 import "./App.css";
 import words from "./words";
-import alphabet from "./alphabet";
 import DisplayWord from "./components/DisplayWord/DisplayWord";
 import WrongLetters from "./components/WrongLetters/WrongLetters";
 import LetterButton from "./components/LetterButton/LetterButton";
+import generateAlphabet from "./alphabet";
 
 class App extends Component {
   state = {
     word: words[Math.floor(Math.random() * words.length)],
     guessedLetters: [],
     guessesRemaining: 10,
-    lettersToGuess: alphabet
+    lettersToGuess: generateAlphabet()
   };
-  handleClick = e => {
-    e.preventDefault();
-    const letter = e.target.key.toLowerCase();
-
-    //updateGame(letter);
-  };
-
   updateGuessedLetters = letter => {
     if (this.state.guessedLetters.includes(letter)) {
       alert("You already guessed " + letter);
@@ -29,7 +22,6 @@ class App extends Component {
       });
     }
   };
-
   updateGuessesRemaining = letter => {
     if (
       !this.state.guessedLetters.includes(letter) &&
@@ -38,6 +30,7 @@ class App extends Component {
       this.setState({ guessesRemaining: this.state.guessesRemaining - 1 });
     }
   };
+
   wordIsGuessed = () => {
     const guessState = this.state.word.split("").map(letter => {
       if (this.state.guessedLetters.includes(letter)) {
@@ -48,10 +41,16 @@ class App extends Component {
   };
 
   gameOver = () => {
-    if (this.state.guessesRemaining <= 0) {
+    if (this.state.guessesRemaining <= 1) {
       alert("You Ran Out of Guesses");
+      this.setState({ guessesRemaining: 10 });
+      this.setState({ guessedLetters: [] });
+      this.setState({ word: words[Math.floor(Math.random() * words.length)] });
     } else if (this.wordIsGuessed()) {
       alert("You Won!");
+      this.setState({ guessesRemaining: 10 });
+      this.setState({ guessedLetters: [] });
+      this.setState({ word: words[Math.floor(Math.random() * words.length)] });
     }
   };
 
@@ -61,11 +60,20 @@ class App extends Component {
     this.gameOver();
   };
 
+  handleClick = e => {
+    e.preventDefault();
+    console.log(e.target.value);
+    var letter = e.target.value;
+
+    console.log("letter clicked: " + letter);
+
+    this.updateGame(letter);
+  };
   render() {
     return (
       <div className="App">
         <h1>WordGuess</h1>
-        <h1>Guesses Remaining: {this.state.guessesRemaining}</h1>
+        <h2>Guesses Remaining:{this.state.guessesRemaining}</h2>
         {this.state.word}
         <DisplayWord
           word={this.state.word}
@@ -77,7 +85,12 @@ class App extends Component {
           guessedLetters={this.state.guessedLetters}
         />
         {this.state.lettersToGuess.map(item => (
-          <LetterButton key={item} handleClick={this.handleClick} />
+          <LetterButton
+            value={item}
+            key={item}
+            item={item}
+            handleClick={this.handleClick}
+          />
         ))}
       </div>
     );
@@ -85,11 +98,3 @@ class App extends Component {
 }
 
 export default App;
-
-//deal with capitalization
-
-//deal with numbers
-
-//repeat until the game is over
-
-// game over: word is guessed or out of guesses

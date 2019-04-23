@@ -4,8 +4,9 @@ import "./LetterButton.css";
 function LetterButton(props) {
   return (
     <button
-      onClick={() => props.handleClick(props.item)}
+      onClick={e => props.handleClick(e)}
       className="letterButton btn btn-primary btn-md "
+      value={props.item}
     >
       {props.item}
     </button>
