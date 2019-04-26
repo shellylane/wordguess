@@ -3,7 +3,7 @@ import "./DisplayWord.css";
 
 class DisplayWord extends Component {
   render() {
-    const wordLetters = this.props.word.split("");
+   const wordLetters = this.props.word.split("");
     const answer = wordLetters.map(letter => {
       let letterState = "__";
       if (this.props.guessedLetters.includes(letter)) {
@@ -11,6 +11,7 @@ class DisplayWord extends Component {
       }
       return letterState + " ";
     });
+  
 
     return (
       <div className="DisplayWord">
